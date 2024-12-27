@@ -1,0 +1,104 @@
+.recipe-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .recipe-card:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .recipe-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .recipe-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  
+  .section-heading {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 16px;
+    color: #444;
+  }
+  
+  .ingredients-list,
+  .preparation-steps {
+    padding-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .tags {
+    margin: 16px 0;
+  }
+  
+  .tags-label {
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 4px 8px;
+    margin: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .meta-info {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  
+  .actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .edit-button {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .edit-button:hover {
+    background-color: #218838;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .delete-button:hover {
+    background-color: #c82333;
+  }
+  
