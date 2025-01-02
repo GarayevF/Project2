@@ -11,31 +11,10 @@ function Main() {
 
   const projects = [
     {
-      title: "Portfolio Website",
-      description: "A responsive portfolio showcasing my projects and skills.",
-      link: "https://github.com/your-username/portfolio",
-    },
-    {
-      title: "E-Commerce Store",
-      description: "A fully functional e-commerce store built with React and Firebase.",
-      link: "https://github.com/your-username/ecommerce-store",
-    },
-    {
-      title: "Weather App",
-      description: "A weather forecasting app that uses OpenWeatherMap API.",
-      link: "https://github.com/your-username/weather-app",
-    },
-    {
-      title: "Chat Application",
-      description: "A real-time chat app using WebSockets.",
-      link: "https://github.com/your-username/chat-app",
-    },
-    {
-      title: "Task Manager",
-      description: "An app to manage daily tasks with a focus on productivity.",
-      link: "https://github.com/your-username/task-manager",
-    },
-    // Add more projects here
+      title: "Website",
+      description: "",
+      link: "",
+    }
   ];
 
   return (
