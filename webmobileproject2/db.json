@@ -1,3 +1,24 @@
 {
-  "recipes": []
+  "recipes": [
+    {
+      "id": 1735917389209,
+      "title": "",
+      "description": "",
+      "ingredients": "",
+      "steps": "",
+      "tags": "",
+      "difficulty": "Easy",
+      "lastUpdated": "1/3/2025, 7:16:29 PM"
+    },
+    {
+      "id": 1735917400061,
+      "title": "",
+      "description": "",
+      "ingredients": "",
+      "steps": "",
+      "tags": "",
+      "difficulty": "Easy",
+      "lastUpdated": "1/3/2025, 7:16:40 PM"
+    }
+  ]
 }
