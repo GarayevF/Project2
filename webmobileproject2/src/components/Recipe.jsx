@@ -13,6 +13,8 @@ const Recipe = () => {
     difficulty: "Easy",
   });
   const [editIndex, setEditIndex] = useState(null);
+  const [filterTags, setFilterTags] = useState("");
+  const [filterDifficulty, setFilterDifficulty] = useState(""); 
 
   const API_URL = "http://localhost:3000/recipes";
 
@@ -41,8 +43,8 @@ const Recipe = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...newRecipe,
-        id: Date.now(),
-        lastUpdated: new Date().toLocaleString()
+        id: Date.now().toString(),
+        lastUpdated: new Date().toLocaleString(),
       }),
     })
       .then((res) => res.json())
@@ -88,9 +90,37 @@ const Recipe = () => {
       })
       .catch((err) => console.error("Error deleting recipe:", err));
   };
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesTags = filterTags
+      ? recipe.tags.toLowerCase().includes(filterTags.toLowerCase())
+      : true;
+    const matchesDifficulty = filterDifficulty
+      ? recipe.difficulty === filterDifficulty
+      : true;
+    return matchesTags && matchesDifficulty;
+  });
 
   return (
     <div className="container">
+      <div className="filter-section">
+        <h3>Filter Recipes</h3>
+        <input
+          type="text"
+          placeholder="Filter by tags"
+          value={filterTags}
+          onChange={(e) => setFilterTags(e.target.value)}
+        />
+        <select
+          value={filterDifficulty}
+          onChange={(e) => setFilterDifficulty(e.target.value)}
+        >
+          <option value="">All Difficulty Levels</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </div>
+
       <button
         className="create-recipe-button"
         onClick={() => setShowForm(!showForm)}
@@ -152,7 +182,7 @@ const Recipe = () => {
       )}
 
       <div className="recipe-cards-container">
-        {recipes.map((recipe, index) => (
+        {filteredRecipes.map((recipe, index) => (
           <div className="recipe-card" key={recipe.id}>
             {editIndex === index ? (
               <div className="recipe-edit-form">
