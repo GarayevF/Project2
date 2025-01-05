@@ -14,7 +14,8 @@ const Recipe = () => {
   });
   const [editIndex, setEditIndex] = useState(null);
   const [filterTags, setFilterTags] = useState("");
-  const [filterDifficulty, setFilterDifficulty] = useState(""); 
+  const [filterDifficulty, setFilterDifficulty] = useState("");
+  const [sortOption, setSortOption] = useState("");
 
   const API_URL = "http://localhost:3000/recipes";
 
@@ -90,6 +91,7 @@ const Recipe = () => {
       })
       .catch((err) => console.error("Error deleting recipe:", err));
   };
+
   const filteredRecipes = recipes.filter((recipe) => {
     const matchesTags = filterTags
       ? recipe.tags.toLowerCase().includes(filterTags.toLowerCase())
@@ -98,6 +100,22 @@ const Recipe = () => {
       ? recipe.difficulty === filterDifficulty
       : true;
     return matchesTags && matchesDifficulty;
+  });
+
+  const sortedRecipes = [...filteredRecipes].sort((a, b) => {
+    switch (sortOption) {
+      case "title":
+        return a.title.localeCompare(b.title);
+      case "lastUpdated":
+        return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+      case "tags":
+        return a.tags.localeCompare(b.tags);
+      case "difficulty":
+        const difficultyOrder = { Easy: 1, Medium: 2, Hard: 3 };
+        return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+      default:
+        return 0;
+    }
   });
 
   return (
@@ -118,6 +136,18 @@ const Recipe = () => {
           <option value="Easy">Easy</option>
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
+        </select>
+
+        <h3>Sort Recipes</h3>
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
+          <option value="">No Sorting</option>
+          <option value="title">Title</option>
+          <option value="lastUpdated">Last Updated</option>
+          <option value="tags">Tags</option>
+          <option value="difficulty">Difficulty</option>
         </select>
       </div>
 
@@ -182,83 +212,83 @@ const Recipe = () => {
       )}
 
       <div className="recipe-cards-container">
-        {filteredRecipes.map((recipe, index) => (
+        {sortedRecipes.map((recipe, index) => (
           <div className="recipe-card" key={recipe.id}>
             {editIndex === index ? (
               <div className="recipe-edit-form">
-                <label htmlFor={`title-${index}`} className="input-label">
-                  Title
-                </label>
-                <input
-                  id={`title-${index}`}
-                  type="text"
-                  name="title"
-                  value={recipe.title}
-                  onChange={(e) => handleInputChange(e, index)}
-                />
+              <label htmlFor={`title-${index}`} className="input-label">
+                Title
+              </label>
+              <input
+                id={`title-${index}`}
+                type="text"
+                name="title"
+                value={recipe.title}
+                onChange={(e) => handleInputChange(e, index)}
+              />
 
-                <label htmlFor={`description-${index}`} className="input-label">
-                  Description
-                </label>
-                <textarea
-                  id={`description-${index}`}
-                  name="description"
-                  rows="3"
-                  value={recipe.description}
-                  onChange={(e) => handleInputChange(e, index)}
-                ></textarea>
+              <label htmlFor={`description-${index}`} className="input-label">
+                Description
+              </label>
+              <textarea
+                id={`description-${index}`}
+                name="description"
+                rows="3"
+                value={recipe.description}
+                onChange={(e) => handleInputChange(e, index)}
+              ></textarea>
 
-                <label htmlFor={`ingredients-${index}`} className="input-label">
-                  Ingredients
-                </label>
-                <textarea
-                  id={`ingredients-${index}`}
-                  name="ingredients"
-                  rows="3"
-                  value={recipe.ingredients}
-                  onChange={(e) => handleInputChange(e, index)}
-                ></textarea>
+              <label htmlFor={`ingredients-${index}`} className="input-label">
+                Ingredients
+              </label>
+              <textarea
+                id={`ingredients-${index}`}
+                name="ingredients"
+                rows="3"
+                value={recipe.ingredients}
+                onChange={(e) => handleInputChange(e, index)}
+              ></textarea>
 
-                <label htmlFor={`steps-${index}`} className="input-label">
-                  Steps
-                </label>
-                <textarea
-                  id={`steps-${index}`}
-                  name="steps"
-                  rows="3"
-                  value={recipe.steps}
-                  onChange={(e) => handleInputChange(e, index)}
-                ></textarea>
+              <label htmlFor={`steps-${index}`} className="input-label">
+                Steps
+              </label>
+              <textarea
+                id={`steps-${index}`}
+                name="steps"
+                rows="3"
+                value={recipe.steps}
+                onChange={(e) => handleInputChange(e, index)}
+              ></textarea>
 
-                <label htmlFor={`tags-${index}`} className="input-label">
-                  Tags
-                </label>
-                <input
-                  id={`tags-${index}`}
-                  type="text"
-                  name="tags"
-                  value={recipe.tags}
-                  onChange={(e) => handleInputChange(e, index)}
-                />
+              <label htmlFor={`tags-${index}`} className="input-label">
+                Tags
+              </label>
+              <input
+                id={`tags-${index}`}
+                type="text"
+                name="tags"
+                value={recipe.tags}
+                onChange={(e) => handleInputChange(e, index)}
+              />
 
-                <label htmlFor={`difficulty-${index}`} className="input-label">
-                  Difficulty
-                </label>
-                <select
-                  id={`difficulty-${index}`}
-                  name="difficulty"
-                  value={recipe.difficulty}
-                  onChange={(e) => handleInputChange(e, index)}
-                >
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
-                </select>
+              <label htmlFor={`difficulty-${index}`} className="input-label">
+                Difficulty
+              </label>
+              <select
+                id={`difficulty-${index}`}
+                name="difficulty"
+                value={recipe.difficulty}
+                onChange={(e) => handleInputChange(e, index)}
+              >
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
 
-                <div className="actions">
-                  <button onClick={() => handleSaveEdit(index)}>Save</button>
-                </div>
+              <div className="actions">
+                <button onClick={() => handleSaveEdit(index)}>Save</button>
               </div>
+            </div>
             ) : (
               <div className="recipe-card-content">
                 <h3>{recipe.title}</h3>
@@ -276,6 +306,9 @@ const Recipe = () => {
                 </p>
                 <p>
                   <strong>Difficulty:</strong> {recipe.difficulty}
+                </p>
+                <p>
+                  <strong>Last Updated:</strong> {recipe.lastUpdated}
                 </p>
                 <div className="actions">
                   <button onClick={() => handleEditRecipe(index)}>Edit</button>
