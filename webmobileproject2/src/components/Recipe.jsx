@@ -2,7 +2,66 @@ import React, { useState, useEffect } from "react";
 import "../styles/Recipe.css";
 
 const Recipe = () => {
+
   const [recipes, setRecipes] = useState([]);
+
+  const [draggedItemIndex, setDraggedItemIndex] = useState(null);
+
+  const [filterTags, setFilterTags] = useState("");
+  const [filterDifficulty, setFilterDifficulty] = useState("");
+  const [sortOption, setSortOption] = useState(""); 
+  
+
+  const handleDragStart = (index) => {
+    setDraggedItemIndex(index);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDrop = async (index) => {
+    if (draggedItemIndex === null || draggedItemIndex === index) return;
+
+    const reorderedItems = Array.from(recipes);
+    const [movedItem] = reorderedItems.splice(draggedItemIndex, 1);
+    reorderedItems.splice(index, 0, movedItem);
+
+    setRecipes(reorderedItems);
+    setDraggedItemIndex(null);
+
+    const updatedOrder = {
+      id: movedItem.id,
+      newIndex: index,
+    };
+
+    console.log(Array.from(updatedOrder))
+    
+    try {
+      await updateOrderInBackend(updatedOrder);
+    } catch (error) {
+      console.error("Error updating order:", error);
+    }
+    
+  };
+
+  const updateOrderInBackend = async (updatedOrder) => {
+    try {
+      console.log(updatedOrder)
+      await fetch("https://project2-data.onrender.com/api/update-order", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedOrder),
+      });
+    } catch (error) {
+      console.error("Failed to update order in backend:", error);
+    }
+  };
+
+
+  
   const [showForm, setShowForm] = useState(false);
   const [newRecipe, setNewRecipe] = useState({
     title: "",
@@ -14,7 +73,7 @@ const Recipe = () => {
   });
   const [editIndex, setEditIndex] = useState(null);
 
-  const API_URL = "http://localhost:3000/recipes";
+  const API_URL = "https://project2-data.onrender.com/recipes";
 
   useEffect(() => {
     fetch(API_URL)
@@ -41,7 +100,7 @@ const Recipe = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...newRecipe,
-        id: Date.now(),
+        id: Date.now().toString(),
         lastUpdated: new Date().toLocaleString()
       }),
     })
@@ -91,6 +150,37 @@ const Recipe = () => {
 
   return (
     <div className="container">
+      <div className="filter-section">
+        <h3>Filter Recipes</h3>
+        <input
+          type="text"
+          placeholder="Filter by tags"
+          value={filterTags}
+          onChange={(e) => setFilterTags(e.target.value)}
+        />
+        <select
+          value={filterDifficulty}
+          onChange={(e) => setFilterDifficulty(e.target.value)}
+        >
+          <option value="">All Difficulty Levels</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+        <h3>Sort Recipes</h3>
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
+          <option value="">No Sorting</option>
+          <option value="title">Title</option>
+          <option value="lastUpdated">Last Updated</option>
+          <option value="tags">Tags</option>
+          <option value="difficulty">Difficulty</option>
+        </select>
+      </div>
+
       <button
         className="create-recipe-button"
         onClick={() => setShowForm(!showForm)}
@@ -153,7 +243,12 @@ const Recipe = () => {
 
       <div className="recipe-cards-container">
         {recipes.map((recipe, index) => (
-          <div className="recipe-card" key={recipe.id}>
+          <div className="recipe-card" key={recipe.id} 
+          draggable
+          onDragStart={() => handleDragStart(index)}
+          onDragOver={handleDragOver}
+          onDrop={() => handleDrop(index)}
+          >
             {editIndex === index ? (
               <div className="recipe-edit-form">
                 <label htmlFor={`title-${index}`} className="input-label">

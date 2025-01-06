@@ -160,4 +160,36 @@ select:focus {
   background-color: #0056b3;
 }
 
+.filter-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 14px;
+}
 
+.filter-section label {
+  font-weight: bold;
+}
+
+.filter-section input,
+.filter-section select {
+  width: auto;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+
+.filter-container input:focus,
+.filter-container select:focus {
+  border-color: #007bff;
+}
+
+.filter-container input {
+  max-width: 150px;
+}
+
+.filter-container select {
+  max-width: 120px;
+}
