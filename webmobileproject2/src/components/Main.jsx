@@ -1,21 +1,45 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import "../styles/Main.css";
 
 function Main() {
-  const featuredRecipe = {
-    title: "Spaghetti Carbonara",
-    description: "A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.",
-    difficulty: "Medium",
-    lastUpdated: "2025-01-01",
-  };
+
+  const [recipe, setRecipe] = useState(null);
+
+  useEffect(() => {
+    const fetchLatestRecipe = async () => {
+      try {
+        const res = await fetch("https://project2-data.onrender.com/recipes?_sort=date&_order=desc&_limit=1");
+        const data = await res.json();
+        setRecipe(data[0]);
+      } catch (error) {
+        console.error("Failed to fetch recipe:", error);
+      }
+    };
+
+    fetchLatestRecipe();
+  }, []);
 
   const projects = [
     {
       title: "Website",
       description: "",
       link: "",
-    }
+    },
+    {
+      title: "Website",
+      description: "",
+      link: "",
+    },
+    {
+      title: "Website",
+      description: "",
+      link: "",
+    },
+    
   ];
+
+  
 
   return (
     <div className="home-container">
@@ -29,16 +53,30 @@ function Main() {
 
       <section className="featured-recipe-section">
         <h2>Featured Recipe</h2>
+        {recipe ? (
         <div className="recipe-card">
-          <h3>{featuredRecipe.title}</h3>
-          <p>{featuredRecipe.description}</p>
-          <p>
-            <strong>Difficulty:</strong> {featuredRecipe.difficulty}
-          </p>
-          <p>
-            <strong>Last Updated:</strong> {featuredRecipe.lastUpdated}
-          </p>
+          <div className="recipe-card-content">
+            <h3>{recipe.title}</h3>
+            <p>
+              <strong>Description:</strong> {recipe.description}
+            </p>
+            <p>
+              <strong>Ingredients:</strong> {recipe.ingredients}
+            </p>
+            <p>
+              <strong>Steps:</strong> {recipe.steps}
+            </p>
+            <p>
+              <strong>Tags:</strong> {recipe.tags}
+            </p>
+            <p>
+              <strong>Difficulty:</strong> {recipe.difficulty}
+            </p>
+          </div>
         </div>
+        ) : (
+          <p>Loading latest recipe...</p>
+        )}
       </section>
 
       <section className="projects-section">
