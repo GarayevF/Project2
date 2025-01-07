@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/project2/webmobileproject2/static/css/main.b4168ee3.css",
-    "main.js": "/project2/webmobileproject2/static/js/main.bcf4b582.js",
+    "main.js": "/project2/webmobileproject2/static/js/main.5abe8b82.js",
     "static/js/488.5e419ff5.chunk.js": "/project2/webmobileproject2/static/js/488.5e419ff5.chunk.js",
     "index.html": "/project2/webmobileproject2/index.html",
     "main.b4168ee3.css.map": "/project2/webmobileproject2/static/css/main.b4168ee3.css.map",
-    "main.bcf4b582.js.map": "/project2/webmobileproject2/static/js/main.bcf4b582.js.map",
+    "main.5abe8b82.js.map": "/project2/webmobileproject2/static/js/main.5abe8b82.js.map",
     "488.5e419ff5.chunk.js.map": "/project2/webmobileproject2/static/js/488.5e419ff5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b4168ee3.css",
-    "static/js/main.bcf4b582.js"
+    "static/js/main.5abe8b82.js"
   ]
 }
