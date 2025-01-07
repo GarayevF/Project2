@@ -7,7 +7,7 @@ import Contact from './Contact';
 
 function App() {
   return (
-    <BrowserRouter basename='/project2/webmobileproject2'>
+    <BrowserRouter>
       <div className="App">
         <Navbar />
         <Routes>
